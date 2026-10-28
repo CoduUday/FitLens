@@ -422,3 +422,4 @@ export default function LiveAnalysisWorkspace() {
     </div>
   );
 }
+

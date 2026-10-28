@@ -18,3 +18,4 @@ export default function MockBadge({ text = 'Simulated / Demo Data', variant = 's
     </div>
   );
 }
+
