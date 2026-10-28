@@ -36,3 +36,4 @@
 | **MongoDB Atlas Offline / No Internet Connection** | Low | Medium | Backend supports configurable local MongoDB connection URI with graceful error messaging and reconnection retry logic. |
 | **Unauthenticated / Unauthorized Data Access** | Medium | High | - Strictly enforce JWT Bearer validation on all protected endpoints.<br>- Enforce RBAC in coach routes: verify athlete-coach assignment in MongoDB before returning athlete sessions (prevents unauthorized access). |
 | **Brute Force / Credential Stuffing** | Medium | Medium | Express rate-limiting middleware on `/api/auth/login` and `/api/auth/register` (max 10 requests per 15 minutes per IP). |
+

@@ -294,3 +294,4 @@ coachAthleteAssignmentSchema.index({ coach: 1, athlete: 1 }, { unique: true });
 3. **Coach Athlete Roster & History Review**:
    - Query: Verify assignment with `{ coach: coachId, athlete: athleteId, status: 'active' }`, then query sessions.
    - Guarded by composite unique index: `{ coach: 1, athlete: 1 }`.
+
