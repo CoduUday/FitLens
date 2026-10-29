@@ -4,26 +4,26 @@
 
 @layer base {
   body {
-    background-color: #080C14;
-    color: #E2E8F0;
+    background-color: #080c14;
+    color: #f8fafc;
   }
 }
 
-/* Subtle, minimal scrollbars */
+/* Custom scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #080C14;
+  background: #080c14;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1A2234;
+  background: #1a2234;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #28354E;
+  background: #27344d;
 }

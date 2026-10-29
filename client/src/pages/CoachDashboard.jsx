@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  Users, Shield, ChevronRight, Plus 
+  Users, ChevronRight, Plus 
 } from 'lucide-react';
 import Navbar from '../components/common/Navbar';
 import MockBadge from '../components/common/MockBadge';
@@ -17,14 +17,14 @@ export default function CoachDashboard() {
   );
 
   return (
-    <div className="min-h-screen bg-[#080C14] text-slate-200 flex flex-col font-sans">
+    <div className="min-h-screen bg-[#080C14] text-slate-100 flex flex-col font-sans selection:bg-cyan-500/20 selection:text-cyan-300">
       <Navbar />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         {/* Coach Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#0D121F] p-6 rounded-2xl border border-white/5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#0B101D] p-6 rounded-2xl border border-slate-800/80 shadow-sm">
           <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white font-bold text-lg">
+            <div className="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-cyan-400 font-bold text-base">
               MV
             </div>
             <div>
@@ -40,17 +40,17 @@ export default function CoachDashboard() {
 
           <div className="flex items-center gap-3">
             <button
-              onClick={() => alert('Simulated Athlete Assignment.')}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-medium bg-white text-slate-950 hover:bg-slate-200 transition-colors"
+              onClick={() => alert('Simulated Athlete Assignment: In Phase 9, coaches can invite athletes via email or athlete code.')}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-cyan-400 hover:bg-cyan-300 text-slate-950 transition-colors"
             >
-              <Plus className="w-3.5 h-3.5" />
-              <span>Assign Athlete</span>
+              <Plus className="w-4 h-4" />
+              <span>Assign New Athlete</span>
             </button>
           </div>
         </div>
 
         {/* Assigned Roster Overview */}
-        <div className="bg-[#0D121F] border border-white/5 rounded-2xl p-6 space-y-5">
+        <div className="bg-[#0B101D] border border-slate-800/80 rounded-2xl p-6 shadow-sm space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h2 className="text-sm font-bold text-white flex items-center gap-2">
@@ -62,13 +62,13 @@ export default function CoachDashboard() {
               </p>
             </div>
 
-            <div className="relative w-full sm:w-60">
+            <div className="relative w-full sm:w-64">
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search athlete..."
-                className="w-full px-3 py-1.5 bg-black/40 border border-white/10 rounded-lg text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400"
+                placeholder="Search athlete by name or sport..."
+                className="w-full px-3 py-1.5 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400"
               />
             </div>
           </div>
@@ -77,48 +77,45 @@ export default function CoachDashboard() {
             {filteredAthletes.map((ath) => (
               <div
                 key={ath.id}
-                className="bg-black/30 border border-white/5 rounded-xl p-4.5 hover:border-white/15 transition-all flex flex-col justify-between space-y-4"
+                className="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 hover:border-slate-700 transition-colors flex flex-col justify-between space-y-4"
               >
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
                     <h3 className="text-sm font-semibold text-white">{ath.fullName}</h3>
-                    <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-white/5 border border-white/10 text-slate-300">
-                      {ath.riskLevel}
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono text-slate-300 bg-slate-900 border border-slate-800">
+                      {ath.riskLevel} Concern
                     </span>
                   </div>
                   <div className="text-xs text-slate-400">{ath.sport}</div>
-                  <div className="text-[11px] text-slate-500 font-mono mt-1">Last active: {ath.lastSession}</div>
+                  <div className="text-[10px] text-slate-500 font-mono mt-1">Last active: {ath.lastSession}</div>
                 </div>
 
-                <div className="bg-[#0D121F] p-3 rounded-lg border border-white/5 text-xs">
+                <div className="bg-slate-900/90 p-3 rounded-xl border border-slate-800 text-xs">
                   <div className="flex justify-between items-center mb-1">
                     <span className="text-slate-400">Form Score:</span>
-                    <span className="font-bold text-white">{ath.formQualityScore} / 100</span>
+                    <span className="font-semibold text-white">{ath.formQualityScore} / 100</span>
                   </div>
-                  <div className="text-[11px] text-slate-400 font-mono mt-1">
-                    Alert: {ath.recentAlert}
+                  <div className="text-[11px] text-slate-300 mt-1">
+                    <span className="text-slate-500">Alert:</span> {ath.recentAlert}
                   </div>
                 </div>
 
                 <Link
                   to="/report/ses_101"
-                  className="w-full flex items-center justify-center gap-1 py-1.5 px-3 rounded-lg text-xs font-medium bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 transition-colors"
+                  className="w-full flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-medium bg-slate-900 hover:bg-slate-800 text-cyan-300 border border-slate-800 transition-colors"
                 >
                   <span>Review Latest Session</span>
-                  <ChevronRight className="w-3 h-3" />
+                  <ChevronRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Coach Privacy Notice */}
-        <div className="p-3.5 rounded-xl bg-[#0D121F] border border-white/5 text-xs text-slate-500 flex items-center justify-between font-mono">
-          <div className="flex items-center gap-2">
-            <Shield className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
-            <span>Coaches only access assigned athletes on their roster.</span>
-          </div>
-          <span className="text-[10px] text-slate-600">RBAC Enforced</span>
+        {/* Coach Role-Based Privacy Notice */}
+        <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-900 text-xs text-slate-500 flex items-center justify-between">
+          <span>Coaches only have access to athlete profiles explicitly assigned to their roster.</span>
+          <span className="text-[10px] font-mono text-slate-600">RBAC Enforced</span>
         </div>
       </main>
     </div>
