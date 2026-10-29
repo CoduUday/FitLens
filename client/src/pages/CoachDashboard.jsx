@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  Users, Shield, Activity, ChevronRight, Search, Plus, 
-  AlertTriangle, CheckCircle2, ArrowUpRight, Sparkles 
+  Users, Shield, ChevronRight, Plus 
 } from 'lucide-react';
 import Navbar from '../components/common/Navbar';
 import MockBadge from '../components/common/MockBadge';
@@ -18,19 +17,19 @@ export default function CoachDashboard() {
   );
 
   return (
-    <div className="min-h-screen bg-[#0B0F19] text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-[#080C14] text-slate-200 flex flex-col font-sans">
       <Navbar />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         {/* Coach Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-slate-900 via-slate-900 to-emerald-950/30 p-6 rounded-2xl border border-slate-800 shadow-xl">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#0D121F] p-6 rounded-2xl border border-white/5">
           <div className="flex items-center space-x-4">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-500 to-cyan-400 flex items-center justify-center text-slate-950 font-black text-xl shadow-lg shadow-emerald-500/20">
+            <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white font-bold text-lg">
               MV
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-extrabold text-white">{coachData.coach.fullName}</h1>
+                <h1 className="text-xl font-bold text-white">{coachData.coach.fullName}</h1>
                 <MockBadge variant="pill" text="Coach Portal" />
               </div>
               <p className="text-xs text-slate-400 mt-0.5">
@@ -41,21 +40,21 @@ export default function CoachDashboard() {
 
           <div className="flex items-center gap-3">
             <button
-              onClick={() => alert('Simulated Athlete Assignment: In Phase 9, coaches can invite athletes via email or athlete code.')}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-emerald-400 hover:bg-emerald-300 text-slate-950 transition-colors shadow-lg shadow-emerald-400/20"
+              onClick={() => alert('Simulated Athlete Assignment.')}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-medium bg-white text-slate-950 hover:bg-slate-200 transition-colors"
             >
-              <Plus className="w-4 h-4" />
-              <span>Assign New Athlete</span>
+              <Plus className="w-3.5 h-3.5" />
+              <span>Assign Athlete</span>
             </button>
           </div>
         </div>
 
         {/* Assigned Roster Overview */}
-        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-6">
+        <div className="bg-[#0D121F] border border-white/5 rounded-2xl p-6 space-y-5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h2 className="text-base font-bold text-white flex items-center gap-2">
-                <Users className="w-4 h-4 text-emerald-400" />
+              <h2 className="text-sm font-bold text-white flex items-center gap-2">
+                <Users className="w-4 h-4 text-cyan-400" />
                 <span>Assigned Athletes ({filteredAthletes.length})</span>
               </h2>
               <p className="text-xs text-slate-400 mt-0.5">
@@ -63,66 +62,65 @@ export default function CoachDashboard() {
               </p>
             </div>
 
-            <div className="relative w-full sm:w-64">
+            <div className="relative w-full sm:w-60">
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search athlete by name or sport..."
-                className="w-full px-3 py-1.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400"
+                placeholder="Search athlete..."
+                className="w-full px-3 py-1.5 bg-black/40 border border-white/10 rounded-lg text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {filteredAthletes.map((ath) => (
               <div
                 key={ath.id}
-                className="bg-slate-950/70 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition-all flex flex-col justify-between space-y-4"
+                className="bg-black/30 border border-white/5 rounded-xl p-4.5 hover:border-white/15 transition-all flex flex-col justify-between space-y-4"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-sm font-bold text-white">{ath.fullName}</h3>
-                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold border ${ath.riskBadge}`}>
-                      {ath.riskLevel} Concern
+                  <div className="flex items-center justify-between mb-1.5">
+                    <h3 className="text-sm font-semibold text-white">{ath.fullName}</h3>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-white/5 border border-white/10 text-slate-300">
+                      {ath.riskLevel}
                     </span>
                   </div>
                   <div className="text-xs text-slate-400">{ath.sport}</div>
                   <div className="text-[11px] text-slate-500 font-mono mt-1">Last active: {ath.lastSession}</div>
                 </div>
 
-                <div className="bg-slate-900/80 p-3 rounded-xl border border-slate-800/80 text-xs">
+                <div className="bg-[#0D121F] p-3 rounded-lg border border-white/5 text-xs">
                   <div className="flex justify-between items-center mb-1">
                     <span className="text-slate-400">Form Score:</span>
-                    <span className="font-bold text-emerald-400">{ath.formQualityScore} / 100</span>
+                    <span className="font-bold text-white">{ath.formQualityScore} / 100</span>
                   </div>
-                  <div className="text-[11px] text-amber-300/90 font-medium mt-1">
+                  <div className="text-[11px] text-slate-400 font-mono mt-1">
                     Alert: {ath.recentAlert}
                   </div>
                 </div>
 
                 <Link
                   to="/report/ses_101"
-                  className="w-full flex items-center justify-center gap-1.5 py-2 px-3 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 transition-colors"
+                  className="w-full flex items-center justify-center gap-1 py-1.5 px-3 rounded-lg text-xs font-medium bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 transition-colors"
                 >
                   <span>Review Latest Session</span>
-                  <ChevronRight className="w-3.5 h-3.5" />
+                  <ChevronRight className="w-3 h-3" />
                 </Link>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Coach Role-Based Privacy Notice */}
-        <div className="p-4 rounded-2xl bg-slate-950/60 border border-slate-800 text-xs text-slate-500 flex items-center justify-between">
+        {/* Coach Privacy Notice */}
+        <div className="p-3.5 rounded-xl bg-[#0D121F] border border-white/5 text-xs text-slate-500 flex items-center justify-between font-mono">
           <div className="flex items-center gap-2">
-            <Shield className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-            <span>Coaches only have access to athlete profiles explicitly assigned to their roster.</span>
+            <Shield className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
+            <span>Coaches only access assigned athletes on their roster.</span>
           </div>
-          <span className="text-[10px] font-mono text-slate-600">RBAC Enforced</span>
+          <span className="text-[10px] text-slate-600">RBAC Enforced</span>
         </div>
       </main>
     </div>
   );
 }
-

@@ -5,15 +5,14 @@ export default {
     extend: {
       colors: {
         fitlens: {
-          dark: '#0B0F19',
-          card: '#111827',
-          border: '#1F2937',
-          muted: '#9CA3AF',
-          cyan: '#00F0FF',
-          'cyan-dark': '#0891B2',
-          lime: '#10B981',
-          danger: '#EF4444',
-          warning: '#F59E0B',
+          dark: '#080C14',     // Ultra clean deep matte dark
+          card: '#0F1523',     // Clean secondary card layer
+          surface: '#151C2E',  // Elevated surface
+          border: '#1E273D',   // Minimal border
+          muted: '#8A99AD',    // Subdued secondary text
+          dim: '#4B5565',      // Tertiary labels
+          accent: '#00E5FF',   // Focused single sharp cyan accent
+          'accent-dim': 'rgba(0, 229, 255, 0.1)',
         },
       },
       fontFamily: {
@@ -23,4 +22,3 @@ export default {
   },
   plugins: [],
 };
-

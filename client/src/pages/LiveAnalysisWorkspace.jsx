@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  Play, Pause, Square, Camera, AlertTriangle, ShieldCheck, RefreshCw, 
-  Sparkles, CheckCircle2, ChevronRight, Activity, Eye, Zap, Volume2, VolumeX 
+  Play, Pause, Square, Camera, AlertTriangle, ShieldCheck, 
+  Volume2, VolumeX, Sparkles, CheckCircle2 
 } from 'lucide-react';
 import Navbar from '../components/common/Navbar';
 import MockBadge from '../components/common/MockBadge';
@@ -41,33 +41,27 @@ export default function LiveAnalysisWorkspace() {
         cycle = (cycle + 1) % 40; // 4 second full rep cycle
 
         if (cycle < 10) {
-          // Standing phase
           setRepPhase('Standing');
           setCurrentKneeAngle(175 - Math.round(cycle * 2));
           setTrunkLeanAngle(15 + Math.round(cycle * 0.5));
           setValgusStatus('Optimal');
         } else if (cycle < 20) {
-          // Descending phase
           setRepPhase('Descending');
           const progress = (cycle - 10) / 10;
           setCurrentKneeAngle(Math.round(155 - progress * 68)); // down to 87°
           setTrunkLeanAngle(Math.round(20 + progress * 8));
           setValgusStatus('Optimal');
         } else if (cycle < 25) {
-          // Bottom / Inflection phase
           setRepPhase('Inflection / Depth');
           setCurrentKneeAngle(87);
           setTrunkLeanAngle(28);
-          // Simulate slight knee cave on later reps
           setValgusStatus(cycle % 2 === 0 ? 'Optimal' : 'Mild Inward Cave');
         } else {
-          // Ascending phase
           setRepPhase('Ascending');
           const progress = (cycle - 25) / 15;
           setCurrentKneeAngle(Math.round(87 + progress * 88));
           setTrunkLeanAngle(Math.round(28 - progress * 10));
 
-          // When completing rep
           if (cycle === 39) {
             setRepCount((prev) => prev + 1);
           }
@@ -102,19 +96,19 @@ export default function LiveAnalysisWorkspace() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0B0F19] text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-[#080C14] text-slate-200 flex flex-col font-sans">
       <Navbar />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col space-y-6">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col space-y-5">
         {/* Top Control Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900/80 border border-slate-800 p-4 rounded-2xl shadow-lg">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#0D121F] border border-white/5 p-3.5 rounded-2xl">
           <div className="flex items-center space-x-3">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold text-slate-400">Exercise:</span>
+              <span className="text-xs font-medium text-slate-400">Exercise:</span>
               <select
                 value={exercise}
                 onChange={(e) => setExercise(e.target.value)}
-                className="bg-slate-950 border border-slate-700 text-white text-xs font-semibold rounded-xl px-3 py-1.5 focus:outline-none focus:border-cyan-400"
+                className="bg-black/50 border border-white/10 text-white text-xs font-medium rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-cyan-400"
               >
                 <option value="Squat">Barbell / Bodyweight Squat</option>
                 <option value="Lunge">Forward Split Lunge</option>
@@ -122,25 +116,25 @@ export default function LiveAnalysisWorkspace() {
               </select>
             </div>
 
-            <div className="h-5 w-px bg-slate-800 hidden sm:block"></div>
+            <div className="h-4 w-px bg-white/10 hidden sm:block"></div>
 
             {/* Video Input Mode Toggle */}
-            <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800">
+            <div className="flex items-center gap-1 bg-black/40 p-1 rounded-lg border border-white/5">
               <button
                 onClick={() => setSourceMode('demo')}
-                className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
+                className={`px-2.5 py-1 rounded text-xs font-mono transition-colors ${
                   sourceMode === 'demo'
-                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                    ? 'bg-white/15 text-white'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
-                Demo Mode (Simulated)
+                Demo Simulation
               </button>
               <button
                 onClick={() => setSourceMode('webcam')}
-                className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
+                className={`px-2.5 py-1 rounded text-xs font-mono transition-colors ${
                   sourceMode === 'webcam'
-                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                    ? 'bg-white/15 text-white'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
@@ -149,10 +143,10 @@ export default function LiveAnalysisWorkspace() {
             </div>
           </div>
 
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2">
             <button
               onClick={() => setSoundEnabled(!soundEnabled)}
-              className="p-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-400 hover:text-white transition-colors"
+              className="p-1.5 rounded-lg bg-black/40 border border-white/10 text-slate-400 hover:text-white transition-colors"
               title={soundEnabled ? 'Mute audio feedback' : 'Unmute audio feedback'}
             >
               {soundEnabled ? <Volume2 className="w-4 h-4 text-cyan-400" /> : <VolumeX className="w-4 h-4" />}
@@ -162,164 +156,160 @@ export default function LiveAnalysisWorkspace() {
             {!isSessionActive ? (
               <button
                 onClick={handleStart}
-                className="flex items-center gap-2 px-5 py-2 rounded-xl text-xs font-bold bg-cyan-400 hover:bg-cyan-300 text-slate-950 transition-colors shadow-lg shadow-cyan-400/20"
+                className="flex items-center gap-2 px-4 py-1.5 rounded-lg text-xs font-medium bg-cyan-400 hover:bg-cyan-300 text-slate-950 transition-colors"
               >
-                <Play className="w-4 h-4 fill-current" />
+                <Play className="w-3.5 h-3.5 fill-current" />
                 <span>Start Session</span>
               </button>
             ) : (
               <>
                 <button
                   onClick={handlePause}
-                  className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-800/60 transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-white/10 hover:bg-white/15 text-slate-200 border border-white/10 transition-colors"
                 >
-                  <Pause className="w-4 h-4" />
+                  <Pause className="w-3.5 h-3.5" />
                   <span>{isPaused ? 'Resume' : 'Pause'}</span>
                 </button>
                 <button
                   onClick={handleStop}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-rose-950 hover:bg-rose-900 text-rose-300 border border-rose-800 transition-colors shadow-lg shadow-rose-900/20"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-white/10 hover:bg-white/20 text-white border border-white/15 transition-colors"
                 >
-                  <Square className="w-4 h-4 fill-current" />
-                  <span>Stop & View Report</span>
+                  <Square className="w-3.5 h-3.5 fill-current" />
+                  <span>Stop & Report</span>
                 </button>
               </>
             )}
           </div>
         </div>
 
-        {/* Phase 3 Mock Notice Pill */}
-        <div className="flex items-center justify-between bg-amber-950/30 border border-amber-800/50 px-4 py-2 rounded-xl text-xs text-amber-300">
+        {/* Phase 3 Mock Notice */}
+        <div className="flex items-center justify-between bg-[#0D121F] border border-white/5 px-4 py-2 rounded-xl text-xs text-slate-400 font-mono">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-amber-400" />
-            <span>
-              <strong>Phase 3 Interactive Simulation:</strong> Live angles and reps below are actively simulated to demonstrate the complete UI workflow before Phase 5 MediaPipe integration.
-            </span>
+            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+            <span>Simulation Mode &bull; Real-time kinematics simulation</span>
           </div>
-          <span className="font-mono text-[10px] text-amber-400 hidden md:inline">Simulated 60 FPS Engine</span>
+          <span className="text-[11px] text-slate-500 hidden md:inline">60 FPS Render Loop</span>
         </div>
 
         {/* Main Workspace Split Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 flex-1">
           {/* Left: Video / Skeleton Canvas Viewport (2 cols) */}
-          <div className="lg:col-span-2 bg-slate-950 border border-slate-800 rounded-3xl overflow-hidden relative flex flex-col justify-between shadow-2xl min-h-[480px]">
+          <div className="lg:col-span-2 bg-[#05080F] border border-white/5 rounded-2xl overflow-hidden relative flex flex-col justify-between min-h-[460px]">
             {/* Viewport Header Bar */}
-            <div className="p-4 flex items-center justify-between z-10 bg-gradient-to-b from-slate-950/90 to-transparent">
+            <div className="p-4 flex items-center justify-between z-10 bg-gradient-to-b from-[#05080F]/90 to-transparent">
               <div className="flex items-center space-x-2">
-                <span className={`w-2.5 h-2.5 rounded-full ${isSessionActive && !isPaused ? 'bg-emerald-400 animate-pulse' : 'bg-slate-600'}`}></span>
-                <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">
-                  {isSessionActive ? (isPaused ? 'Session Paused' : 'Analyzing Live Form') : 'Camera Standby'}
+                <span className={`w-2 h-2 rounded-full ${isSessionActive && !isPaused ? 'bg-cyan-400' : 'bg-slate-600'}`}></span>
+                <span className="text-xs font-mono font-medium text-white uppercase tracking-wider">
+                  {isSessionActive ? (isPaused ? 'Paused' : 'Active Analysis') : 'Standby'}
                 </span>
-                <span className="text-[10px] text-slate-500 font-mono ml-2">
-                  Duration: {formatTime(sessionSeconds)}
+                <span className="text-[11px] text-slate-500 font-mono ml-2">
+                  {formatTime(sessionSeconds)}
                 </span>
               </div>
 
               <div className="flex items-center space-x-2 text-[11px] font-mono">
-                <span className="px-2 py-0.5 rounded bg-slate-900/90 border border-slate-800 text-cyan-400">
+                <span className="px-2 py-0.5 rounded bg-white/5 border border-white/5 text-slate-300">
                   Confidence: {isSessionActive ? '98.6%' : '100%'}
                 </span>
-                <span className="px-2 py-0.5 rounded bg-slate-900/90 border border-slate-800 text-slate-400">
+                <span className="px-2 py-0.5 rounded bg-white/5 border border-white/5 text-slate-400">
                   60 FPS
                 </span>
               </div>
             </div>
 
-            {/* Center: Visual Representation / Skeleton Wireframe */}
+            {/* Center: Skeleton Wireframe Graphics */}
             <div className="flex-1 flex items-center justify-center relative p-6">
-              {/* Simulated Skeleton Wireframe Graphics */}
-              <div className="relative w-64 h-96 border border-dashed border-cyan-500/20 rounded-2xl flex flex-col items-center justify-center p-4 bg-slate-900/30">
-                {/* SVG Skeleton Simulation */}
-                <svg className="w-full h-full text-cyan-400" viewBox="0 0 100 150">
+              <div className="relative w-60 h-88 border border-dashed border-white/10 rounded-2xl flex flex-col items-center justify-center p-4 bg-white/[0.02]">
+                <svg className="w-full h-full text-slate-300" viewBox="0 0 100 150">
                   {/* Head */}
-                  <circle cx="50" cy="20" r="8" fill="none" stroke="#00F0FF" strokeWidth="2" />
+                  <circle cx="50" cy="20" r="7" fill="none" stroke="#FFFFFF" strokeWidth="1.5" />
                   {/* Spine */}
-                  <line x1="50" y1="28" x2="50" y2="70" stroke="#00F0FF" strokeWidth="2" />
+                  <line x1="50" y1="27" x2="50" y2="70" stroke="#FFFFFF" strokeWidth="1.5" />
                   {/* Shoulders */}
-                  <line x1="30" y1="36" x2="70" y2="36" stroke="#00F0FF" strokeWidth="2" />
+                  <line x1="32" y1="36" x2="68" y2="36" stroke="#FFFFFF" strokeWidth="1.5" />
                   {/* Arms */}
-                  <line x1="30" y1="36" x2="20" y2="60" stroke="#00F0FF" strokeWidth="1.5" />
-                  <line x1="70" y1="36" x2="80" y2="60" stroke="#00F0FF" strokeWidth="1.5" />
+                  <line x1="32" y1="36" x2="22" y2="58" stroke="#FFFFFF" strokeWidth="1.2" />
+                  <line x1="68" y1="36" x2="78" y2="58" stroke="#FFFFFF" strokeWidth="1.2" />
                   {/* Pelvis / Hips */}
-                  <line x1="38" y1="70" x2="62" y2="70" stroke="#00F0FF" strokeWidth="2.5" />
+                  <line x1="38" y1="70" x2="62" y2="70" stroke="#FFFFFF" strokeWidth="2" />
                   {/* Left Leg */}
-                  <line x1="38" y1="70" x2="35" y2={repPhase === 'Inflection / Depth' ? '98' : '105'} stroke="#00F0FF" strokeWidth="2.5" />
-                  <line x1="35" y1={repPhase === 'Inflection / Depth' ? '98' : '105'} x2="32" y2="135" stroke="#00F0FF" strokeWidth="2" />
+                  <line x1="38" y1="70" x2="35" y2={repPhase === 'Inflection / Depth' ? '98' : '105'} stroke="#FFFFFF" strokeWidth="2" />
+                  <line x1="35" y1={repPhase === 'Inflection / Depth' ? '98' : '105'} x2="32" y2="135" stroke="#FFFFFF" strokeWidth="1.5" />
                   {/* Right Leg */}
                   <line 
                     x1="62" 
                     y1="70" 
-                    x2={valgusStatus.includes('Cave') ? '54' : '65'} 
+                    x2={valgusStatus.includes('Cave') ? '55' : '65'} 
                     y2={repPhase === 'Inflection / Depth' ? '98' : '105'} 
-                    stroke={valgusStatus.includes('Cave') ? '#F59E0B' : '#00F0FF'} 
-                    strokeWidth="2.5" 
+                    stroke={valgusStatus.includes('Cave') ? '#00E5FF' : '#FFFFFF'} 
+                    strokeWidth="2" 
                   />
-                  <line x1={valgusStatus.includes('Cave') ? '54' : '65'} y1={repPhase === 'Inflection / Depth' ? '98' : '105'} x2="68" y2="135" stroke="#00F0FF" strokeWidth="2" />
+                  <line x1={valgusStatus.includes('Cave') ? '55' : '65'} y1={repPhase === 'Inflection / Depth' ? '98' : '105'} x2="68" y2="135" stroke="#FFFFFF" strokeWidth="1.5" />
 
                   {/* Joint Landmark Highlight Dots */}
-                  <circle cx="50" cy="20" r="2.5" fill="#10B981" />
-                  <circle cx="38" cy="70" r="3" fill="#10B981" />
-                  <circle cx="62" cy="70" r="3" fill="#10B981" />
-                  <circle cx="35" cy={repPhase === 'Inflection / Depth' ? '98' : '105'} r="3.5" fill="#00F0FF" />
-                  <circle cx={valgusStatus.includes('Cave') ? '54' : '65'} cy={repPhase === 'Inflection / Depth' ? '98' : '105'} r="4" fill={valgusStatus.includes('Cave') ? '#F59E0B' : '#00F0FF'} />
-                  <circle cx="32" cy="135" r="3" fill="#10B981" />
-                  <circle cx="68" cy="135" r="3" fill="#10B981" />
+                  <circle cx="50" cy="20" r="2" fill="#00E5FF" />
+                  <circle cx="38" cy="70" r="2.5" fill="#00E5FF" />
+                  <circle cx="62" cy="70" r="2.5" fill="#00E5FF" />
+                  <circle cx="35" cy={repPhase === 'Inflection / Depth' ? '98' : '105'} r="2.5" fill="#00E5FF" />
+                  <circle cx={valgusStatus.includes('Cave') ? '55' : '65'} cy={repPhase === 'Inflection / Depth' ? '98' : '105'} r="3" fill="#00E5FF" />
+                  <circle cx="32" cy="135" r="2.5" fill="#FFFFFF" />
+                  <circle cx="68" cy="135" r="2.5" fill="#FFFFFF" />
                 </svg>
 
                 {/* Real-time Angle Tag floating over knee */}
-                <div className="absolute bottom-16 right-4 bg-slate-900/90 border border-cyan-500/50 px-2 py-1 rounded text-[11px] font-mono text-cyan-300 shadow-md">
-                  Knee: {currentKneeAngle}°
+                <div className="absolute bottom-14 right-3 bg-[#080C14] border border-white/10 px-2 py-0.5 rounded text-[11px] font-mono text-cyan-300">
+                  {currentKneeAngle}°
                 </div>
               </div>
 
               {!isSessionActive && (
-                <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center">
-                  <Camera className="w-12 h-12 text-cyan-400 mb-3" />
-                  <h3 className="text-lg font-bold text-white mb-1">Interactive Biomechanics Workspace</h3>
-                  <p className="text-xs text-slate-400 max-w-sm mb-5">
-                    Click <strong>"Start Session"</strong> above to trigger the simulated repetition loop, angle calculations, and dynamic safety alerts.
+                <div className="absolute inset-0 bg-[#05080F]/90 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center">
+                  <Camera className="w-10 h-10 text-slate-400 mb-3" />
+                  <h3 className="text-base font-bold text-white mb-1">Live Biomechanics Workspace</h3>
+                  <p className="text-xs text-slate-400 max-w-sm mb-4">
+                    Click <strong>"Start Session"</strong> to begin simulated movement tracking and joint angle monitoring.
                   </p>
                   <button
                     onClick={handleStart}
-                    className="px-6 py-2.5 rounded-xl text-xs font-bold bg-cyan-400 hover:bg-cyan-300 text-slate-950 transition-colors shadow-lg shadow-cyan-400/20"
+                    className="px-5 py-2 rounded-xl text-xs font-medium bg-cyan-400 hover:bg-cyan-300 text-slate-950 transition-colors"
                   >
-                    Start Simulated Session
+                    Start Session
                   </button>
                 </div>
               )}
             </div>
 
             {/* Viewport Footer HUD */}
-            <div className="p-4 z-10 bg-gradient-to-t from-slate-950/90 to-transparent flex flex-wrap items-center justify-between gap-3 text-xs">
+            <div className="p-3.5 z-10 bg-gradient-to-t from-[#05080F]/90 to-transparent flex flex-wrap items-center justify-between gap-3 text-xs">
               <div className="flex items-center gap-2">
-                <span className="text-slate-400">Current Phase:</span>
-                <span className="px-2.5 py-0.5 rounded-full bg-cyan-950 text-cyan-300 font-semibold border border-cyan-800 text-[11px]">
+                <span className="text-slate-400">Phase:</span>
+                <span className="px-2 py-0.5 rounded bg-white/5 text-slate-200 font-mono text-[11px] border border-white/5">
                   {repPhase}
                 </span>
               </div>
 
-              <div className="text-[11px] text-slate-400 flex items-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Zero video transmitted &bull; Frame buffer cleared immediately</span>
+              <div className="text-[11px] text-slate-500 font-mono flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-slate-400" />
+                <span>Zero server video upload</span>
               </div>
             </div>
           </div>
 
           {/* Right: Real-Time Biomechanics & Risk HUD (1 col) */}
-          <div className="space-y-5 flex flex-col">
+          <div className="space-y-4 flex flex-col">
             {/* Rep Counter Card */}
-            <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
-              <div className="flex items-center justify-between text-slate-400 mb-2">
-                <span className="text-xs font-bold uppercase tracking-wider">Completed Reps</span>
-                <span className="text-xs font-mono text-cyan-400">{exercise}</span>
+            <div className="bg-[#0D121F] border border-white/5 rounded-2xl p-5">
+              <div className="flex items-center justify-between text-slate-400 mb-1">
+                <span className="text-[11px] font-mono uppercase tracking-wider">Completed Reps</span>
+                <span className="text-xs font-mono text-slate-400">{exercise}</span>
               </div>
               <div className="flex items-baseline justify-between">
-                <span className="text-5xl font-black text-white">{repCount}</span>
-                <span className="text-xs font-mono text-emerald-400 bg-emerald-950/80 px-2 py-1 rounded border border-emerald-800">
-                  Cadence: 2.3s
+                <span className="text-4xl font-bold text-white">{repCount}</span>
+                <span className="text-xs font-mono text-slate-300 bg-white/5 px-2 py-0.5 rounded border border-white/5">
+                  Tempo: 2.3s
                 </span>
               </div>
-              <div className="w-full bg-slate-950 rounded-full h-1.5 mt-3 overflow-hidden">
+              <div className="w-full bg-black/40 rounded-full h-1 mt-3 overflow-hidden">
                 <div 
                   className="bg-cyan-400 h-full transition-all duration-300"
                   style={{ width: `${Math.min(repCount * 10, 100)}%` }}
@@ -328,81 +318,70 @@ export default function LiveAnalysisWorkspace() {
             </div>
 
             {/* Joint Angles HUD */}
-            <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
-              <h4 className="text-xs font-bold text-white uppercase tracking-wider">Live Joint Angles</h4>
+            <div className="bg-[#0D121F] border border-white/5 rounded-2xl p-5 space-y-4">
+              <h4 className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">Kinematics Metrics</h4>
 
               {/* Knee Angle */}
               <div>
-                <div className="flex justify-between text-xs mb-1">
-                  <span className="text-slate-300">Knee Flexion (Depth)</span>
-                  <span className="font-mono font-bold text-cyan-300">{currentKneeAngle}°</span>
+                <div className="flex justify-between text-xs mb-1 font-mono">
+                  <span className="text-slate-400">Knee Depth</span>
+                  <span className="text-white font-bold">{currentKneeAngle}°</span>
                 </div>
-                <div className="w-full bg-slate-950 rounded-full h-2 overflow-hidden">
+                <div className="w-full bg-black/40 rounded-full h-1.5 overflow-hidden">
                   <div 
-                    className={`h-full transition-all duration-100 ${
-                      currentKneeAngle < 95 ? 'bg-emerald-400' : 'bg-cyan-400'
-                    }`}
+                    className="h-full bg-cyan-400 transition-all duration-100"
                     style={{ width: `${Math.min((currentKneeAngle / 180) * 100, 100)}%` }}
                   ></div>
                 </div>
                 <div className="flex justify-between text-[10px] text-slate-500 font-mono mt-1">
-                  <span>Parallel (90°)</span>
-                  <span>Standing (180°)</span>
+                  <span>90° Parallel</span>
+                  <span>180° Standing</span>
                 </div>
               </div>
 
               {/* Trunk Inclination */}
               <div>
-                <div className="flex justify-between text-xs mb-1">
-                  <span className="text-slate-300">Trunk Forward Lean</span>
-                  <span className="font-mono font-bold text-slate-200">{trunkLeanAngle}°</span>
+                <div className="flex justify-between text-xs mb-1 font-mono">
+                  <span className="text-slate-400">Trunk Lean</span>
+                  <span className="text-white font-bold">{trunkLeanAngle}°</span>
                 </div>
-                <div className="w-full bg-slate-950 rounded-full h-2 overflow-hidden">
+                <div className="w-full bg-black/40 rounded-full h-1.5 overflow-hidden">
                   <div 
-                    className="bg-teal-400 h-full transition-all duration-100"
+                    className="bg-slate-300 h-full transition-all duration-100"
                     style={{ width: `${Math.min((trunkLeanAngle / 60) * 100, 100)}%` }}
                   ></div>
                 </div>
                 <div className="flex justify-between text-[10px] text-slate-500 font-mono mt-1">
-                  <span>Upright (0°)</span>
-                  <span>Warning (&gt;45°)</span>
+                  <span>0° Upright</span>
+                  <span>&gt;45° Excessive</span>
                 </div>
               </div>
             </div>
 
-            {/* Real-Time Risk Indicator Card */}
-            <div className={`p-5 rounded-2xl border shadow-xl transition-all ${
-              valgusStatus.includes('Cave') 
-                ? 'bg-amber-950/40 border-amber-800/80' 
-                : 'bg-slate-900/90 border-slate-800'
-            }`}>
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                  Heuristic Safety Alert
+            {/* Risk Indicator Card */}
+            <div className="bg-[#0D121F] border border-white/5 rounded-2xl p-5">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[11px] font-mono uppercase tracking-wider text-slate-400">
+                  Heuristic Status
                 </span>
-                <span className={`px-2 py-0.5 rounded text-[10px] font-bold border ${
-                  valgusStatus.includes('Cave')
-                    ? 'bg-amber-950 text-amber-300 border-amber-800'
-                    : 'bg-emerald-950 text-emerald-300 border-emerald-800'
-                }`}>
+                <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-white/5 border border-white/10 text-slate-300">
                   {valgusStatus.includes('Cave') ? 'Moderate Concern' : 'Normal Form'}
                 </span>
               </div>
 
               {valgusStatus.includes('Cave') ? (
                 <div>
-                  <div className="flex items-center gap-2 text-amber-300 font-bold text-sm mb-1">
-                    <AlertTriangle className="w-4 h-4 text-amber-400" />
-                    <span>Dynamic Knee Valgus Alert</span>
+                  <div className="text-xs font-bold text-white mb-1">
+                    Medial Knee Displacement
                   </div>
-                  <p className="text-xs text-slate-300 leading-relaxed">
-                    Medial knee cave detected on ascending drive. Focus on pushing knees outward in line with second toe.
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    Minor inward knee cave observed on ascent. Keep knees tracking over second toe.
                   </p>
                 </div>
               ) : (
-                <div className="flex items-center gap-2 text-emerald-400 text-xs font-medium">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-                  <span>Knee tracking and bilateral balance aligned with targets.</span>
+                <div className="flex items-center gap-2 text-slate-300 text-xs">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
+                  <span>Knee tracking and balance aligned with targets.</span>
                 </div>
               )}
             </div>
@@ -411,9 +390,9 @@ export default function LiveAnalysisWorkspace() {
             {isSessionActive && (
               <button
                 onClick={handleStop}
-                className="w-full py-3 rounded-xl text-xs font-bold bg-cyan-400 hover:bg-cyan-300 text-slate-950 transition-colors shadow-lg shadow-cyan-400/20 mt-auto"
+                className="w-full py-2.5 rounded-xl text-xs font-medium bg-white text-slate-950 hover:bg-slate-200 transition-colors mt-auto"
               >
-                Complete Workout & Generate Report
+                Complete & Generate Report
               </button>
             )}
           </div>
@@ -422,4 +401,3 @@ export default function LiveAnalysisWorkspace() {
     </div>
   );
 }
-

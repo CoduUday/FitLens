@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  History, Search, Filter, Calendar, ChevronRight, Activity, 
-  ArrowUpDown, Download, Sparkles 
+  History, Search, Filter, ChevronRight, Activity, Download 
 } from 'lucide-react';
 import Navbar from '../components/common/Navbar';
 import MockBadge from '../components/common/MockBadge';
@@ -21,7 +20,7 @@ export default function SessionHistoryPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#0B0F19] text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-[#080C14] text-slate-200 flex flex-col font-sans">
       <Navbar />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
@@ -29,37 +28,37 @@ export default function SessionHistoryPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-2xl font-extrabold text-white">Biomechanical Session History</h1>
-              <MockBadge variant="pill" text="Mock Data Archive" />
+              <h1 className="text-xl font-bold text-white">Biomechanical Session History</h1>
+              <MockBadge variant="pill" text="Archive" />
             </div>
             <p className="text-xs text-slate-400 mt-0.5">
-              Review and audit your past movement sessions, repetition depth curves, and risk summaries
+              Review and audit your past movement sessions, depth metrics, and risk summaries
             </p>
           </div>
 
           <div className="flex items-center gap-2">
             <button
-              onClick={() => alert('Simulated CSV export: In Phase 8, this will generate a real downloadable CSV report of your session metrics.')}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors"
+              onClick={() => alert('Simulated CSV export ready.')}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 transition-colors"
             >
               <Download className="w-3.5 h-3.5" />
-              <span>Export CSV (Preview)</span>
+              <span>Export CSV</span>
             </button>
           </div>
         </div>
 
         {/* Filters and Search Bar */}
-        <div className="bg-slate-900/80 border border-slate-800 p-4 rounded-2xl shadow-lg flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="relative w-full md:w-72">
+        <div className="bg-[#0D121F] border border-white/5 p-3.5 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-3">
+          <div className="relative w-full md:w-64">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
-              <Search className="w-4 h-4" />
+              <Search className="w-3.5 h-3.5" />
             </div>
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search exercise or issue..."
-              className="w-full pl-9 pr-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400"
+              placeholder="Search exercise..."
+              className="w-full pl-8 pr-3 py-1.5 bg-black/40 border border-white/10 rounded-lg text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400"
             />
           </div>
 
@@ -70,7 +69,7 @@ export default function SessionHistoryPage() {
               <select
                 value={filterExercise}
                 onChange={(e) => setFilterExercise(e.target.value)}
-                className="bg-slate-950 border border-slate-800 text-slate-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-cyan-400"
+                className="bg-black/40 border border-white/10 text-slate-200 rounded-lg px-2.5 py-1 text-xs focus:outline-none focus:border-cyan-400"
               >
                 <option value="All">All Exercises</option>
                 <option value="Squat">Squats</option>
@@ -84,71 +83,71 @@ export default function SessionHistoryPage() {
               <select
                 value={filterConcern}
                 onChange={(e) => setFilterConcern(e.target.value)}
-                className="bg-slate-950 border border-slate-800 text-slate-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-cyan-400"
+                className="bg-black/40 border border-white/10 text-slate-200 rounded-lg px-2.5 py-1 text-xs focus:outline-none focus:border-cyan-400"
               >
                 <option value="All">All Levels</option>
-                <option value="Low">Low Concern</option>
-                <option value="Moderate">Moderate Concern</option>
-                <option value="Elevated">Elevated Concern</option>
+                <option value="Low">Low</option>
+                <option value="Moderate">Moderate</option>
+                <option value="Elevated">Elevated</option>
               </select>
             </div>
           </div>
         </div>
 
         {/* Sessions List Cards */}
-        <div className="space-y-4">
+        <div className="space-y-3">
           {filteredSessions.length === 0 ? (
-            <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-12 text-center text-slate-400 text-sm">
+            <div className="bg-[#0D121F] border border-white/5 rounded-2xl p-8 text-center text-slate-500 text-xs">
               No sessions found matching your filter criteria.
             </div>
           ) : (
             filteredSessions.map((ses) => (
               <div
                 key={ses.id}
-                className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 hover:border-slate-700 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-lg group"
+                className="bg-[#0D121F] border border-white/5 rounded-2xl p-4 hover:border-white/15 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4"
               >
-                <div className="flex items-start sm:items-center space-x-4">
-                  <div className="w-12 h-12 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-center text-cyan-400 font-bold flex-shrink-0 group-hover:border-cyan-500/40 transition-colors">
-                    <Activity className="w-5 h-5" />
+                <div className="flex items-start sm:items-center space-x-3.5">
+                  <div className="w-10 h-10 rounded-xl bg-black/40 border border-white/10 flex items-center justify-center text-cyan-400 font-bold flex-shrink-0">
+                    <Activity className="w-4 h-4" />
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <h3 className="text-base font-bold text-white">{ses.exerciseType}</h3>
-                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${ses.concernBadgeColor}`}>
+                      <h3 className="text-sm font-semibold text-white">{ses.exerciseType}</h3>
+                      <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-white/5 border border-white/10 text-slate-300">
                         {ses.concernLevel}
                       </span>
                     </div>
                     <p className="text-xs text-slate-400 mt-0.5">{ses.primaryIssue}</p>
-                    <div className="flex items-center gap-3 text-[11px] text-slate-500 mt-2 font-mono">
+                    <div className="flex items-center gap-2 text-[11px] text-slate-500 mt-1 font-mono">
                       <span>{ses.date} at {ses.time}</span>
                       <span>&bull;</span>
-                      <span>Duration: {ses.duration}</span>
+                      <span>{ses.duration}</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between md:justify-end gap-6 border-t md:border-t-0 pt-3 md:pt-0 border-slate-800">
+                <div className="flex items-center justify-between md:justify-end gap-5 border-t md:border-t-0 pt-2.5 md:pt-0 border-white/5">
                   <div className="text-center md:text-right">
-                    <div className="text-xs text-slate-400">Reps</div>
-                    <div className="text-sm font-mono font-bold text-white">{ses.validReps}/{ses.totalReps}</div>
+                    <div className="text-[10px] text-slate-500 font-mono">Reps</div>
+                    <div className="text-xs font-mono font-bold text-white">{ses.validReps}/{ses.totalReps}</div>
                   </div>
 
                   <div className="text-center md:text-right">
-                    <div className="text-xs text-slate-400">Avg Depth</div>
-                    <div className="text-sm font-mono font-bold text-cyan-300">{ses.avgDepth}</div>
+                    <div className="text-[10px] text-slate-500 font-mono">Depth</div>
+                    <div className="text-xs font-mono font-bold text-cyan-300">{ses.avgDepth}</div>
                   </div>
 
                   <div className="text-center md:text-right">
-                    <div className="text-xs text-slate-400">Form Score</div>
-                    <div className="text-base font-bold text-emerald-400">{ses.formScore}</div>
+                    <div className="text-[10px] text-slate-500 font-mono">Score</div>
+                    <div className="text-xs font-mono font-bold text-white">{ses.formScore}/100</div>
                   </div>
 
                   <Link
                     to={`/report/${ses.id}`}
-                    className="inline-flex items-center gap-1 px-4 py-2 rounded-xl text-xs font-semibold bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 transition-colors"
+                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 transition-colors"
                   >
-                    <span>View Report</span>
-                    <ChevronRight className="w-3.5 h-3.5" />
+                    <span>Report</span>
+                    <ChevronRight className="w-3 h-3" />
                   </Link>
                 </div>
               </div>
@@ -159,4 +158,3 @@ export default function SessionHistoryPage() {
     </div>
   );
 }
-
